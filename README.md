@@ -1,27 +1,55 @@
 # Redish
 
-When mom says "we have Redis at home"
+> "Mom, can we have Redis?"
+> "No, we have Redis at home."
+> **Redis at home:**
 
-## How to use
+**Redish** is a lightweight, distributed key-value store written in Go. It is designed as a study in distributed systems fundamentals, focusing on raw TCP communication, concurrency control, and data durability.
 
-1. In one terminal run: `bash
-git clone https://github.com/bduckdev/redish \
-cd redish \
-go run .`
+**This project is really really early in development.**
 
-2. In another run: `
-nc localhost 6379`
-3. Behold the functionality: `SET foo bar
-OK
-GET foo
-bar
-GET notakey
-(nil)`
+## Quick Start
 
-## Features
+1. **Start the Server**
+   ```bash
+   git clone [https://github.com/bduckdev/redish](https://github.com/bduckdev/redish)
+   cd redish
+   go run .
+   ```
 
-- you can connect, and you can set a key, then you can get it back
+_You should see: `Redish (v0.1) listening on port 6379...`_
 
-## todo
+2.  **Connect via Netcat (or Telnet)**
+    Open a second terminal:
 
-- basically everything else
+    ```bash
+    nc localhost 6379
+    ```
+
+3.  **Behold the Functionality**
+
+    ```text
+    SET foo bar
+    OK
+
+    GET foo
+    bar
+
+    GET notakey
+    (nil)
+    ```
+
+## Architecture & Implementation
+
+Unlike standard web servers that rely on HTTP, Redish implements a **custom TCP wire protocol** for low-latency communication.
+
+- **Concurrency:** Uses `sync.RWMutex` to handle concurrent reads/writes safely. Multiple readers can access data simultaneously, while writers acquire an exclusive lock.
+- **Protocol:** Text-based command protocol (inspired by RESP) over raw TCP.
+- **Storage:** In-memory hash map (Go `map`).
+
+## Roadmap
+
+- [x] TCP Server & Thread-safe In-Memory Store
+- [ ] Persistence via Write-Ahead Log (WAL)
+- [ ] Leader-Follower Replication
+- [ ] Sharding & Consistent Hashing
