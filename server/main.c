@@ -1,4 +1,5 @@
 // redish server
+#include "../config.h"
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +21,7 @@ int main() {
   // bind
   struct sockaddr_in addr = {};
   addr.sin_family = AF_INET;
-  addr.sin_port = htons(0);
+  addr.sin_port = htons(PORT);
   addr.sin_addr.s_addr = htonl(0);
   int rv = bind(fd, (const struct sockaddr *)&addr, sizeof(addr));
   if (rv) {
