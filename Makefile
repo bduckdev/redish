@@ -12,4 +12,4 @@ client: build
 clean:
 	rm -rf ./bin
 
-.PHONY: build run clean
+.PHONY: build server client clean
